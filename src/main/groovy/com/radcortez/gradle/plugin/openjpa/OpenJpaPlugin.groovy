@@ -18,5 +18,6 @@ class OpenJpaPlugin implements Plugin<Project> {
                 description: "Enhances entity classes with the OpenJPA Enhancer tool",
                 dependsOn: "classes",
                 "enhance")
+        project.extensions.create("openjpa", OpenJpaExtension)
     }
 }
