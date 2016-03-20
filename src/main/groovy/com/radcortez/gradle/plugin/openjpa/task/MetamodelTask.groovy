@@ -2,10 +2,8 @@ package com.radcortez.gradle.plugin.openjpa.task
 
 import com.radcortez.gradle.plugin.openjpa.OpenJpaExtension
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.tasks.compile.JavaCompile
-
-import static org.gradle.api.tasks.SourceSet.MAIN_SOURCE_SET_NAME
 
 /**
  * Description.
@@ -17,8 +15,7 @@ class MetamodelTask extends JavaCompile {
         project.afterEvaluate {
             def configuration = project.extensions.findByType(OpenJpaExtension)
 
-            def mainJava = project.convention.getPlugin(JavaPluginConvention)
-                    .sourceSets.getByName(MAIN_SOURCE_SET_NAME).java
+            def SourceDirectorySet mainJava = project.sourceSets.main.java
             source(mainJava.srcDirs)
 
             project.dependencies { DependencyHandler d -> d.add("compile", configuration.metamodelDependency) }

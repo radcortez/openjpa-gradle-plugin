@@ -26,7 +26,7 @@ class OpenJpaExtension {
     String excludes = ""
     @Input
     @Optional
-    boolean generateMetamodel = false
+    boolean metamodel = false
     @Input
     @Optional
     String metamodelOutputFolder = project.buildDir.absolutePath + "/generated"

@@ -30,9 +30,9 @@ class OpenJpaPlugin implements Plugin<Project> {
                 "metamodel")
 
         project.afterEvaluate() {
-            if (project.extensions.findByType(OpenJpaExtension).generateMetamodel) {
+            if (project.extensions.findByType(OpenJpaExtension).metamodel) {
                 project.convention.getPlugin(JavaPluginConvention).sourceSets.all {
-                    project.tasks.getByName(it.getCompileJavaTaskName()).dependsOn(project.tasks.getByName("metamodel"))
+                    project.tasks.compileJava.dependsOn project.tasks.metamodel
                 }
             }
         }

@@ -5,10 +5,7 @@ import org.apache.openjpa.enhance.PCEnhancer
 import org.apache.openjpa.lib.util.Options
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.TaskAction
-
-import static org.gradle.api.tasks.SourceSet.MAIN_SOURCE_SET_NAME
 
 /**
  * Description.
@@ -21,8 +18,7 @@ class EnhanceTask extends DefaultTask {
         project.pluginManager.apply(JavaPlugin)
         def configuration = project.extensions.findByType(OpenJpaExtension)
 
-        def classes = project.convention.getPlugin(JavaPluginConvention)
-                .sourceSets.getByName(MAIN_SOURCE_SET_NAME).output.classesDir
+        def classes = project.sourceSets.main.output.classesDir
 
         def entities = project.fileTree(classes).matching {
             include configuration.includes
@@ -40,9 +36,8 @@ class EnhanceTask extends DefaultTask {
     }
 
     File findPersistenceXml() {
-        def resources = project.convention.getPlugin(JavaPluginConvention)
-                .sourceSets.getByName(MAIN_SOURCE_SET_NAME).getOutput().getResourcesDir()
-
-        project.fileTree(resources).matching { include 'META-INF/persistence.xml' }.singleFile
+        project.fileTree(project.sourceSets.main.output.resourcesDir).matching {
+            include 'META-INF/persistence.xml'
+        }.singleFile
     }
 }
