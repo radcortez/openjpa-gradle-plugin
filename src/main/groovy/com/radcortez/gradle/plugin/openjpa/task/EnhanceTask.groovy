@@ -17,12 +17,12 @@ import static org.gradle.api.tasks.SourceSet.MAIN_SOURCE_SET_NAME
  */
 class EnhanceTask extends DefaultTask {
     @TaskAction
-    public void enhance() {
+    void enhance() {
         project.pluginManager.apply(JavaPlugin)
         def configuration = project.extensions.findByType(OpenJpaExtension)
 
         def classes = project.convention.getPlugin(JavaPluginConvention)
-                .sourceSets.getByName(MAIN_SOURCE_SET_NAME).getOutput().classesDir
+                .sourceSets.getByName(MAIN_SOURCE_SET_NAME).output.classesDir
 
         def entities = project.fileTree(classes).matching {
             include configuration.includes

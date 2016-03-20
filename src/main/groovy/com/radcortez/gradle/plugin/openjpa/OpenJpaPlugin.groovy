@@ -1,8 +1,10 @@
 package com.radcortez.gradle.plugin.openjpa
 
 import com.radcortez.gradle.plugin.openjpa.task.EnhanceTask
+import com.radcortez.gradle.plugin.openjpa.task.MetamodelTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginConvention
 
 /**
  * Description.
@@ -12,12 +14,27 @@ import org.gradle.api.Project
 class OpenJpaPlugin implements Plugin<Project> {
     @Override
     void apply(final Project project) {
+        project.extensions.create("openjpa", OpenJpaExtension, project)
+
         project.task(
                 type: EnhanceTask,
                 group: "OpenJPA",
-                description: "Enhances entity classes with the OpenJPA Enhancer tool",
+                description: "Enhances entity classes with the OpenJPA Enhancer tool.",
                 dependsOn: "classes",
                 "enhance")
-        project.extensions.create("openjpa", OpenJpaExtension)
+
+        project.task(
+                type: MetamodelTask,
+                group: "OpenJPA",
+                description: "Generates metamodel classes.",
+                "metamodel")
+
+        project.afterEvaluate() {
+            if (project.extensions.findByType(OpenJpaExtension).generateMetamodel) {
+                project.convention.getPlugin(JavaPluginConvention).sourceSets.all {
+                    project.tasks.getByName(it.getCompileJavaTaskName()).dependsOn(project.tasks.getByName("metamodel"))
+                }
+            }
+        }
     }
 }

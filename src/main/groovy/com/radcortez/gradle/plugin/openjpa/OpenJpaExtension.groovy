@@ -1,5 +1,6 @@
 package com.radcortez.gradle.plugin.openjpa
 
+import org.gradle.api.Project
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 
@@ -9,6 +10,8 @@ import org.gradle.api.tasks.Optional
  * @author Roberto Cortez
  */
 class OpenJpaExtension {
+    Project project
+
     @Input
     @Optional
     boolean addDefaultConstructor = true
@@ -17,8 +20,21 @@ class OpenJpaExtension {
     boolean enforcePropertyRestrictions = false
     @Input
     @Optional
-    def includes = "*.class"
+    String includes = "*.class"
     @Input
     @Optional
-    def excludes = ""
+    String excludes = ""
+    @Input
+    @Optional
+    boolean generateMetamodel = false
+    @Input
+    @Optional
+    String metamodelOutputFolder = project.buildDir.absolutePath + "/generated"
+    @Input
+    @Optional
+    String metamodelDependency = "org.apache.openjpa:openjpa:2.4.0"
+
+    OpenJpaExtension(Project project) {
+        this.project = project
+    }
 }
