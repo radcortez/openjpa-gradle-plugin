@@ -29,6 +29,8 @@ class OpenJpaPlugin implements Plugin<Project> {
                 description: "Generates metamodel classes.",
                 "metamodel")
 
+        project.tasks.classes.doLast { project.tasks.enhance.execute() }
+
         project.afterEvaluate() {
             if (project.extensions.findByType(OpenJpaExtension).metamodel) {
                 project.convention.getPlugin(JavaPluginConvention).sourceSets.all {
