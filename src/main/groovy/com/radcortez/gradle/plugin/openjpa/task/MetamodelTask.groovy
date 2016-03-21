@@ -24,7 +24,7 @@ class MetamodelTask extends JavaCompile {
             destinationDir = project.file(configuration.metamodelOutputFolder)
 
             options.compilerArgs += [
-                    "-Aopenjpa.source=8",
+                    "-Aopenjpa.source=" + sourceCompatibility[-1..-1],
                     "-Aopenjpa.metamodel=true",
                     "-proc:only",
                     "-processor", "org.apache.openjpa.persistence.meta.AnnotationProcessor6"
