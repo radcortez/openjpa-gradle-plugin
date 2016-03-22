@@ -55,7 +55,7 @@ class OpenJpaPlugin implements Plugin<Project> {
 
         while (path.parent != Paths.get(project.buildDir.path)) {
             path = path.parent
-            if (path.toFile().listFiles().length == 0) {
+            if (path.toFile().exists() && path.toFile().listFiles().length == 0) {
                 path.deleteDir()
             } else {
                 break;
