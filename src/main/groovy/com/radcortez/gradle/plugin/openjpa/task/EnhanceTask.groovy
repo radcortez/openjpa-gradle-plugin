@@ -4,6 +4,7 @@ import com.radcortez.gradle.plugin.openjpa.OpenJpaExtension
 import org.apache.openjpa.enhance.PCEnhancer
 import org.apache.openjpa.lib.util.Options
 import org.gradle.api.DefaultTask
+import org.gradle.api.InvalidUserDataException
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.TaskAction
 
@@ -13,10 +14,12 @@ import org.gradle.api.tasks.TaskAction
  * @author Roberto Cortez
  */
 class EnhanceTask extends DefaultTask {
+    def OpenJpaExtension configuration
+
     @TaskAction
     void enhance() {
         project.pluginManager.apply(JavaPlugin)
-        def configuration = project.extensions.findByType(OpenJpaExtension)
+        configuration = project.extensions.findByType(OpenJpaExtension)
 
         def classes = project.sourceSets.main.output.classesDir
 
@@ -36,8 +39,15 @@ class EnhanceTask extends DefaultTask {
     }
 
     File findPersistenceXml() {
-        project.fileTree(project.sourceSets.main.output.resourcesDir).matching {
-            include 'META-INF/persistence.xml'
-        }.singleFile
+        def persistenceXml = project.fileTree(project.sourceSets.main.output.resourcesDir).matching {
+            include configuration.persistenceXml
+        }
+
+        if (persistenceXml.isEmpty() || persistenceXml.files.size() > 1) {
+            throw new InvalidUserDataException(
+                    "Could not find valid persistence.xml in path " + configuration.persistenceXml.plus())
+        }
+
+        persistenceXml.singleFile
     }
 }

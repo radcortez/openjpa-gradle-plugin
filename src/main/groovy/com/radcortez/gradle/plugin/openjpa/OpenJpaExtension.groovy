@@ -26,6 +26,9 @@ class OpenJpaExtension {
     String excludes = ""
     @Input
     @Optional
+    String persistenceXml = "META-INF/persistence.xml"
+    @Input
+    @Optional
     boolean metamodel = false
     @Input
     @Optional
