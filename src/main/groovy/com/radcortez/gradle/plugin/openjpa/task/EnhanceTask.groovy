@@ -45,7 +45,7 @@ class EnhanceTask extends DefaultTask {
 
         if (persistenceXml.isEmpty() || persistenceXml.files.size() > 1) {
             throw new InvalidUserDataException(
-                    "Could not find valid persistence.xml in path " + configuration.persistenceXml.plus())
+                    "Could not find valid persistence.xml in path " + configuration.persistenceXml)
         }
 
         persistenceXml.singleFile
