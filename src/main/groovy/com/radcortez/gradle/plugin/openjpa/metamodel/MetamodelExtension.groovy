@@ -46,7 +46,6 @@ class MetamodelExtension {
         while (path.parent != Paths.get(project.buildDir.path)) {
             path = path.parent
             if (path.toFile().exists() && path.toFile().listFiles().length == 0) {
-                println(path)
                 path.deleteDir()
             } else {
                 break;

@@ -1,4 +1,4 @@
-package com.radcortez.gradle.plugin.openjpa.task
+package com.radcortez.gradle.plugin.openjpa.enhance
 
 import com.radcortez.gradle.plugin.openjpa.OpenJpaExtension
 import org.apache.openjpa.enhance.PCEnhancer
@@ -14,12 +14,13 @@ import org.gradle.api.tasks.TaskAction
  * @author Roberto Cortez
  */
 class EnhanceTask extends DefaultTask {
-    def OpenJpaExtension configuration
-
     @TaskAction
     void enhance() {
         project.pluginManager.apply(JavaPlugin)
-        configuration = project.extensions.findByType(OpenJpaExtension)
+
+        EnhanceExtension configuration = project
+                .extensions.findByType(OpenJpaExtension)
+                .extensions.findByType(EnhanceExtension)
 
         def classes = project.sourceSets.main.output.classesDir
 
@@ -40,7 +41,7 @@ class EnhanceTask extends DefaultTask {
 
     File findPersistenceXml() {
         def persistenceXml = project.fileTree(project.sourceSets.main.output.resourcesDir).matching {
-            include configuration.persistenceXml
+            include project.extensions.findByType(OpenJpaExtension).persistenceXml
         }
 
         if (persistenceXml.isEmpty() || persistenceXml.files.size() > 1) {

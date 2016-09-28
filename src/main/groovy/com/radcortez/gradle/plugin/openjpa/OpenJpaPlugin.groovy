@@ -1,7 +1,8 @@
 package com.radcortez.gradle.plugin.openjpa
 
+import com.radcortez.gradle.plugin.openjpa.enhance.EnhanceExtension
+import com.radcortez.gradle.plugin.openjpa.enhance.EnhanceTask
 import com.radcortez.gradle.plugin.openjpa.metamodel.MetamodelExtension
-import com.radcortez.gradle.plugin.openjpa.task.EnhanceTask
 import com.radcortez.gradle.plugin.openjpa.metamodel.MetamodelTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -15,6 +16,7 @@ class OpenJpaPlugin implements Plugin<Project> {
     @Override
     void apply(final Project project) {
         project.extensions.create("openjpa", OpenJpaExtension)
+        project.openjpa.extensions.create("enhance", EnhanceExtension, project)
         project.openjpa.extensions.create("metamodel", MetamodelExtension, project)
 
         project.task(
@@ -29,9 +31,5 @@ class OpenJpaPlugin implements Plugin<Project> {
                 group: "OpenJPA",
                 description: "Generates metamodel classes.",
                 "metamodel")
-
-        project.afterEvaluate() {
-            project.tasks.classes.doLast { project.tasks.enhance.execute() }
-        }
     }
 }

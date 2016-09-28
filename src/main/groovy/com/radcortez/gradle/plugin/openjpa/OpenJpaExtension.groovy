@@ -11,17 +11,5 @@ import org.gradle.api.tasks.Optional
 class OpenJpaExtension {
     @Input
     @Optional
-    boolean addDefaultConstructor = true
-    @Input
-    @Optional
-    boolean enforcePropertyRestrictions = false
-    @Input
-    @Optional
-    String includes = "*.class"
-    @Input
-    @Optional
-    String excludes = ""
-    @Input
-    @Optional
     String persistenceXml = "META-INF/persistence.xml"
 }
