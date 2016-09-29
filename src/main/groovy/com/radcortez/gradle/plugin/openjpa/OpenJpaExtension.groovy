@@ -21,7 +21,7 @@ class OpenJpaExtension {
         this.project = project
     }
 
-    public File getPersistenceXmlFile() {
+    File getPersistenceXmlFile() {
         def persistenceXml = project.fileTree(project.sourceSets.main.output.resourcesDir).matching {
             include persistenceXml
         }
