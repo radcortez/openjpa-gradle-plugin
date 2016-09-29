@@ -1,7 +1,7 @@
 package com.radcortez.gradle.plugin.openjpa.enhance
 
+import com.radcortez.gradle.plugin.openjpa.OpenJpa
 import com.radcortez.gradle.plugin.openjpa.OpenJpaExtension
-import org.apache.openjpa.enhance.PCEnhancer
 import org.apache.openjpa.lib.util.Options
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.JavaPlugin
@@ -27,13 +27,12 @@ class EnhanceTask extends DefaultTask {
             exclude configuration.excludes
         }
 
-        def options = new Options()
-        options.put("addDefaultConstructor", Boolean.toString(configuration.addDefaultConstructor))
-        options.put("enforcePropertyRestrictions", Boolean.toString(configuration.enforcePropertyRestrictions))
-        options.put("propertiesFile", openJpaConfiguration.persistenceXmlFile)
-
         Thread.currentThread().contextClassLoader.addURL(classes.toURI().toURL())
 
-        PCEnhancer.run(entities.files as String[], options)
+        OpenJpa.openJpa(new Options([
+                "addDefaultConstructor"      : Boolean.toString(configuration.addDefaultConstructor),
+                "enforcePropertyRestrictions": Boolean.toString(configuration.enforcePropertyRestrictions),
+                "propertiesFile"             : openJpaConfiguration.persistenceXmlFile
+        ])).enhance(entities.files as String[])
     }
 }

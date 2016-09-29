@@ -1,10 +1,13 @@
 package com.radcortez.gradle.plugin.openjpa;
 
+import org.apache.openjpa.enhance.PCEnhancer;
 import org.apache.openjpa.jdbc.conf.JDBCConfiguration;
 import org.apache.openjpa.jdbc.conf.JDBCConfigurationImpl;
 import org.apache.openjpa.jdbc.meta.MappingTool;
 import org.apache.openjpa.lib.conf.Configurations;
 import org.apache.openjpa.lib.util.Options;
+
+import java.io.IOException;
 
 /**
  * Description.
@@ -27,6 +30,10 @@ public class OpenJpa {
 
     public static OpenJpa openJpa(final Options options) {
         return new OpenJpa(options);
+    }
+
+    public void enhance(final String[] entities) throws Exception {
+        PCEnhancer.run(entities, options);
     }
 
     public Class<?>[] parseTypes(final String arg) {
