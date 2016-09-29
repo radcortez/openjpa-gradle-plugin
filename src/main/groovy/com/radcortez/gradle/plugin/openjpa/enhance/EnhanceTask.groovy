@@ -4,7 +4,6 @@ import com.radcortez.gradle.plugin.openjpa.OpenJpaExtension
 import org.apache.openjpa.enhance.PCEnhancer
 import org.apache.openjpa.lib.util.Options
 import org.gradle.api.DefaultTask
-import org.gradle.api.InvalidUserDataException
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.TaskAction
 
@@ -18,9 +17,8 @@ class EnhanceTask extends DefaultTask {
     void enhance() {
         project.pluginManager.apply(JavaPlugin)
 
-        EnhanceExtension configuration = project
-                .extensions.findByType(OpenJpaExtension)
-                .extensions.findByType(EnhanceExtension)
+        OpenJpaExtension openJpaConfiguration = project.extensions.findByType(OpenJpaExtension)
+        EnhanceExtension configuration = openJpaConfiguration.extensions.findByType(EnhanceExtension)
 
         def classes = project.sourceSets.main.output.classesDir
 
@@ -32,23 +30,10 @@ class EnhanceTask extends DefaultTask {
         def options = new Options()
         options.put("addDefaultConstructor", Boolean.toString(configuration.addDefaultConstructor))
         options.put("enforcePropertyRestrictions", Boolean.toString(configuration.enforcePropertyRestrictions))
-        options.put("propertiesFile", findPersistenceXml())
+        options.put("propertiesFile", openJpaConfiguration.persistenceXmlFile)
 
         Thread.currentThread().contextClassLoader.addURL(classes.toURI().toURL())
 
         PCEnhancer.run(entities.files as String[], options)
-    }
-
-    File findPersistenceXml() {
-        def persistenceXml = project.fileTree(project.sourceSets.main.output.resourcesDir).matching {
-            include project.extensions.findByType(OpenJpaExtension).persistenceXml
-        }
-
-        if (persistenceXml.isEmpty() || persistenceXml.files.size() > 1) {
-            throw new InvalidUserDataException(
-                    "Could not find valid persistence.xml in path " + configuration.persistenceXml)
-        }
-
-        persistenceXml.singleFile
     }
 }

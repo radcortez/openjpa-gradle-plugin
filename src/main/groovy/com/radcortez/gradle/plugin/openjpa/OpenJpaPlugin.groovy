@@ -15,7 +15,7 @@ import org.gradle.api.Project
 class OpenJpaPlugin implements Plugin<Project> {
     @Override
     void apply(final Project project) {
-        project.extensions.create("openjpa", OpenJpaExtension)
+        project.extensions.create("openjpa", OpenJpaExtension, project)
         project.openjpa.extensions.create("enhance", EnhanceExtension, project)
         project.openjpa.extensions.create("metamodel", MetamodelExtension, project)
 
