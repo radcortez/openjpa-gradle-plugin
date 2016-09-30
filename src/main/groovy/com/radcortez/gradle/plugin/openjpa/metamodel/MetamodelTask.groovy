@@ -21,7 +21,7 @@ class MetamodelTask extends JavaCompile {
             source(mainJava.srcDirs)
 
             project.dependencies {
-                DependencyHandler d -> d.add("compile", configuration.metamodelDependency)
+                DependencyHandler d -> d.add("providedCompile", configuration.metamodelDependency)
             }
             setClasspath(project.configurations.compile)
 
