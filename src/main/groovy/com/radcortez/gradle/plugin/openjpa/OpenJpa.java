@@ -7,7 +7,8 @@ import org.apache.openjpa.jdbc.meta.MappingTool;
 import org.apache.openjpa.lib.conf.Configurations;
 import org.apache.openjpa.lib.util.Options;
 
-import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 /**
  * Description.
@@ -15,21 +16,22 @@ import java.io.IOException;
  * @author Roberto Cortez
  */
 public class OpenJpa {
+    private ClassLoader currentClassLoader;
+
     private Options options;
     private JDBCConfiguration jdbcConfiguration;
 
-    private OpenJpa(final Options options) {
+    private OpenJpa(final URL[] urls, final Options options) {
+        this.currentClassLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(new URLClassLoader(urls, currentClassLoader));
+
         this.options = options;
         this.jdbcConfiguration = new JDBCConfigurationImpl();
         Configurations.populateConfiguration(this.jdbcConfiguration, this.options);
     }
 
-    public static OpenJpa openJpa() {
-        return new OpenJpa(new Options());
-    }
-
-    public static OpenJpa openJpa(final Options options) {
-        return new OpenJpa(options);
+    public static OpenJpa openJpa(final URL[] urls, final Options options) {
+        return new OpenJpa(urls, options);
     }
 
     public void enhance(final String[] entities) throws Exception {
@@ -43,5 +45,9 @@ public class OpenJpa {
 
     public boolean mappingTool(final String[] entities) throws Exception {
         return MappingTool.run(jdbcConfiguration, entities, options);
+    }
+
+    public void dispose() {
+        Thread.currentThread().setContextClassLoader(currentClassLoader);
     }
 }

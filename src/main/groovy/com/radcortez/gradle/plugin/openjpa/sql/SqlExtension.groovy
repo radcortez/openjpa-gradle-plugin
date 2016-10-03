@@ -18,6 +18,7 @@ class SqlExtension {
     @Optional
     String schemaAction = "build"
     @Input
+    @Optional
     String sqlFile = project.buildDir.absolutePath + "/database.sql"
 
     SqlExtension(final Project project) {

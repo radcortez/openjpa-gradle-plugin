@@ -20,19 +20,14 @@ class EnhanceTask extends DefaultTask {
         OpenJpaExtension openJpaConfiguration = project.extensions.findByType(OpenJpaExtension)
         EnhanceExtension configuration = openJpaConfiguration.extensions.findByType(EnhanceExtension)
 
-        def classes = project.sourceSets.main.output.classesDir
-
-        def entities = project.fileTree(classes).matching {
-            include configuration.includes
-            exclude configuration.excludes
-        }
-
-        Thread.currentThread().contextClassLoader.addURL(classes.toURI().toURL())
-
-        OpenJpa.openJpa(new Options([
-                "addDefaultConstructor"      : Boolean.toString(configuration.addDefaultConstructor),
-                "enforcePropertyRestrictions": Boolean.toString(configuration.enforcePropertyRestrictions),
+        def openJpa = OpenJpa.openJpa(openJpaConfiguration.classpath, new Options([
+                "addDefaultConstructor"      : configuration.addDefaultConstructor.toBoolean(),
+                "enforcePropertyRestrictions": configuration.enforcePropertyRestrictions.toBoolean(),
+                "tmpClassLoader"             : configuration.tmpClassLoader.toBoolean(),
                 "propertiesFile"             : openJpaConfiguration.persistenceXmlFile
-        ])).enhance(entities.files as String[])
+        ]))
+
+        openJpa.enhance(openJpaConfiguration.classes as String[])
+        openJpa.dispose()
     }
 }

@@ -20,16 +20,7 @@ class SqlTask extends DefaultTask {
         OpenJpaExtension openJpaConfiguration = project.extensions.findByType(OpenJpaExtension)
         SqlExtension configuration = openJpaConfiguration.extensions.findByType(SqlExtension)
 
-        def classes = project.sourceSets.main.output.classesDir
-        Thread.currentThread().contextClassLoader.addURL(classes.toURI().toURL())
-        project.configurations["compile"].files.collect { jar ->
-            Thread.currentThread().contextClassLoader.addURL(jar.toURI().toURL())
-        }
-        project.sourceSets.main.resources.srcDirs.collect { resource ->
-            Thread.currentThread().contextClassLoader.addURL(resource.toURI().toURL())
-        }
-
-        def openJpa = OpenJpa.openJpa(new Options([
+        def openJpa = OpenJpa.openJpa(openJpaConfiguration.classpath, new Options([
                 "propertiesFile"      : openJpaConfiguration.persistenceXmlFile,
                 "ConnectionDriverName": configuration.connectionDriverName,
                 "schemaAction"        : configuration.schemaAction,
@@ -37,7 +28,7 @@ class SqlTask extends DefaultTask {
         ]))
 
         def entities = []
-        project.fileTree(classes).each { classFile ->
+        openJpaConfiguration.classes.each { classFile ->
             openJpa.parseTypes(classFile.absolutePath).each { klass ->
                 if (klass.isAnnotationPresent(Entity.class)) {
                     entities.add(classFile.absolutePath)
@@ -46,5 +37,6 @@ class SqlTask extends DefaultTask {
         }
 
         openJpa.mappingTool(entities as String[])
+        openJpa.dispose()
     }
 }

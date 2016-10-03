@@ -20,10 +20,7 @@ class EnhanceExtension {
     boolean enforcePropertyRestrictions = false
     @Input
     @Optional
-    String includes = "*.class"
-    @Input
-    @Optional
-    String excludes = ""
+    boolean tmpClassLoader = false;
 
     EnhanceExtension(final Project project) {
         this.project = project

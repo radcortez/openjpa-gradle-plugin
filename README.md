@@ -18,7 +18,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:0.2-SNAPSHOT'
+        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:0.3-SNAPSHOT'
     }
 }
 ```
