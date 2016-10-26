@@ -106,74 +106,74 @@ openjpa {
 ### Configuration Details
 
 **includes**
-* Description: Include files from the classpath into the OpenJPA Tools.
-* Type: String
-* Default: none
-* Required: No
-* Scope: global
+* _Description_: Include files from the classpath into the OpenJPA Tools.
+* _Type:_ String
+* _Default:_ none
+* _Required:_ No
+* _Scope:_ global
 
 **excludes**
-* Description: Exclude files from the classpath into the OpenJPA Tools.
-* Type: String
-* Default: none
-* Required: No
-* Scope: global
+* _Description_: Exclude files from the classpath into the OpenJPA Tools.
+* _Type:_ String
+* _Default:_ none
+* _Required:_ No
+* _Scope:_ global
 
 **persistenceXml**
-* Description: Location of the persistence.xml file.
-* Type: String
-* Default: META-INF/persistence.xml
-* Required: No
-* Scope: global
+* _Description_: Location of the persistence.xml file.
+* _Type:_ String
+* _Default:_ META-INF/persistence.xml
+* _Required:_ No
+* _Scope:_ global
 
 **addDefaultConstructor**
-* Description: Add a default constructors to the Entity Enhancement.
-* Type: boolean
-* Default: true
-* Required: No
-* Scope: enhance
+* _Description_: Add a default constructors to the Entity Enhancement.
+* _Type:_ boolean
+* _Default:_ true
+* _Required:_ No
+* _Scope:_ enhance
 
 **enforcePropertyRestrictions**
-* Description: Throw an exception when an entity property access is not obeying the restrictions placed on property access.
-* Type: boolean
-* Default: false
-* Required: No
-* Scope: enhance
+* _Description_: Throw an exception when an entity property access is not obeying the restrictions placed on property access.
+* _Type:_ boolean
+* _Default:_ false
+* _Required:_ No
+* _Scope:_ enhance
 
 **tmpClassLoader**
-* Description: Tell the PCEnhancer to use a temporary classloader for enhancement.
-* Type: boolean
-* Default: false
-* Required: No
-* Scope: enhance
+* _Description_: Tell the PCEnhancer to use a temporary classloader for enhancement.
+* _Type:_ boolean
+* _Default:_ false
+* _Required:_ No
+* _Scope:_ enhance
 
 **metamodelOutputFolder**
-* Description: The output folder to use to generate the metamodel source files.
-* Type: String
-* Default: ${buildDir}/generated
-* Required: No
-* Scope: metamodel
+* _Description_: The output folder to use to generate the metamodel source files.
+* _Type:_ String
+* _Default:_ ${buildDir}/generated
+* _Required:_ No
+* _Scope:_ metamodel
 
 **metamodelDependency**
-* Description: The OpenJPA dependency to use to generate the metamodel source files.
-* Type: String
-* Default: org.apache.openjpa:openjpa:2.4.0
-* Required: No
-* Scope: metamodel
+* _Description_: The OpenJPA dependency to use to generate the metamodel source files.
+* _Type:_ String
+* _Default:_ org.apache.openjpa:openjpa:2.4.0
+* _Required:_ No
+* _Scope:_ metamodel
 
 **connectionDriverName**
-* Description: The Connection Driver Name to determine the databsase to generate the Database Schema.
-* Type: String
-* Default: none
-* Required: Yes
-* Scope: sql
+* _Description_: The Connection Driver Name to determine the databsase to generate the Database Schema.
+* _Type:_ String
+* _Default:_ none
+* _Required:_ Yes
+*_ Scope_: sql
 
 **sqlFile**
-* Description: The SQL file name to generate the Database Schema.
-* Type: String
-* Default: ${buildDir}/database.sql
-* Required: No
-* Scope: sql
+* _Description_: The SQL file name to generate the Database Schema.
+* _Type:_ String
+* _Default:_ ${buildDir}/database.sql
+* _Required:_ No
+*_ Scope_: sql
 
 ### Full Example:
 ```gradle
