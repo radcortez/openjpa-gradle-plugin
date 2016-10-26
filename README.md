@@ -1,13 +1,7 @@
 # OpenJPA Gradle Plugin
 
 ## Usage
-At the moment, the plugin is still in a earlier development stage. You need to checkout the project, build it and 
-install it in your local Maven repository. You need to have Gradle installed.
-
- * Build with `gradle build`
- * Add it to the local Maven repository with `gradle publishToMavenLocal`
- 
-Then in a Gradle project where you want to use the OpenJPA Grade Plugin, add the following snippet:
+In a Gradle project where you want to use the OpenJPA Gradle Plugin, add the following snippet:
  
 ```gradle
 apply plugin: 'openjpa'
@@ -24,7 +18,7 @@ buildscript {
 ```
 
 ### Tasks
-The OpenJPA Gradle Plugin has three taks:
+The OpenJPA Gradle Plugin has three tasks:
 * enhance
 * metamodel
 * sql
@@ -38,10 +32,14 @@ You can pass additional configuration to the `enhance` task with:
 ```gradle
 openjpa {
     enhance {
-       
+        addDefaultConstructor true
+        enforcePropertyRestrictions false
+        tmpClassLoader false
     }
 }
 ```
+
+You can omit the configuration if you use the default values.
 
 #### Metamodel (Generates JPA Metamodel classes)
 If you want to generate Metamodel classes for your entity classes, you have to explicitly activate it, by adding the 
@@ -57,6 +55,18 @@ openjpa {
 
 Metamodel sources will be generated into the directory `${buildDir}/generated`
 
+You can pass additional configuration to the `metamodel` task with:
+```gradle
+openjpa {
+    metamodel {
+        metamodelOutputFolder '${buildDir}/generated'
+        metamodelDependency 'org.apache.openjpa:openjpa:2.4.0'
+    }
+}
+```
+
+You can omit the configuration if you use the default values.
+
 #### SQL (Generates the database schema to a file)
 To run the `sql` task properly, you need to setup the target database to generate the sql schema. You can do it with 
 the following configuration:
@@ -69,4 +79,118 @@ openjpa {
 }
 ```
 
-You don't need the driver in the classpath, just the name of the driver that you use to connect to the target database.
+The `connectionDriverName` is mandatory. You don't need the driver in the classpath, just the name of the driver that 
+you use to connect to the target database. OpenJPA will try to guess the correct database dictionary to use to generate
+the correct SQL statements.
+
+You can pass additional configuration to the `sql` task with:
+```gradle
+openjpa {
+    sql {
+        connectionDriverName 'oracle.jdbc.OracleDriver'
+        sqlFile '${buildDir}/database.sql'
+    }
+}
+```
+
+### Configuration
+The OpenJPA Gradle Plugin also allows you to configure global properties to all tasks:
+```gradle
+openjpa {
+    includes ''
+    excludes ''
+    persistenceXml 'META-INF/persistence.xml'
+}
+```
+
+### Configuration Details
+
+**includes**
+* Description: Include files from the classpath into the OpenJPA Tools.
+* Type: String
+* Default: none
+* Required: No
+* Scope: global
+
+**excludes**
+* Description: Exclude files from the classpath into the OpenJPA Tools.
+* Type: String
+* Default: none
+* Required: No
+* Scope: global
+
+**persistenceXml**
+* Description: Location of the persistence.xml file.
+* Type: String
+* Default: META-INF/persistence.xml
+* Required: No
+* Scope: global
+
+**addDefaultConstructor**
+* Description: Add a default constructors to the Entity Enhancement.
+* Type: boolean
+* Default: true
+* Required: No
+* Scope: enhance
+
+**enforcePropertyRestrictions**
+* Description: Throw an exception when an entity property access is not obeying the restrictions placed on property access.
+* Type: boolean
+* Default: false
+* Required: No
+* Scope: enhance
+
+**tmpClassLoader**
+* Description: Tell the PCEnhancer to use a temporary classloader for enhancement.
+* Type: boolean
+* Default: false
+* Required: No
+* Scope: enhance
+
+**metamodelOutputFolder**
+* Description: The output folder to use to generate the metamodel source files.
+* Type: String
+* Default: ${buildDir}/generated
+* Required: No
+* Scope: metamodel
+
+**metamodelDependency**
+* Description: The OpenJPA dependency to use to generate the metamodel source files.
+* Type: String
+* Default: org.apache.openjpa:openjpa:2.4.0
+* Required: No
+* Scope: metamodel
+
+**connectionDriverName**
+* Description: The Connection Driver Name to determine the databsase to generate the Database Schema.
+* Type: String
+* Default: none
+* Required: Yes
+* Scope: sql
+
+**sqlFile**
+* Description: The SQL file name to generate the Database Schema.
+* Type: String
+* Default: ${buildDir}/database.sql
+* Required: No
+* Scope: sql
+
+### Full Example:
+```gradle
+openjpa {
+    excludes '**/*.class'
+
+    metamodel {
+        metamodelOutputFolder 'target/generated-sources/metamodel'
+    }
+
+    sql {
+        connectionDriverName 'oracle.jdbc.OracleDriver'
+    }
+}
+```
+
+This example will exclude all classes from the OpenJPA tools, so it will only use the entities referenced in the 
+`persistence.xml`. The metamodel source files are generated at 'target/generated-sources/metamodel' and are 
+automatically part of the build. An Oracle database SQL schema can be generated with `gradle sql` in the file 
+`build/database.sql`.
