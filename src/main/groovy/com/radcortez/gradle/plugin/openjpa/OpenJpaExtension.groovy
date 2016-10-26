@@ -45,16 +45,33 @@ class OpenJpaExtension {
     }
 
     File getPersistenceXmlFile() {
-        def persistenceXml = project.fileTree(project.sourceSets.main.output.resourcesDir).matching {
-            include persistenceXml
+        def persistenceXmlFile
+        // Check if persistence.xml is in the resource dirs.
+        project.sourceSets.main.resources.srcDirs.collect { resourceDir ->
+            def persistenceXmlFileCandidate = project.fileTree(resourceDir).matching {
+                include persistenceXml
+            }
+
+            if (!persistenceXmlFileCandidate.isEmpty()) {
+                if (persistenceXmlFile == null) {
+                    persistenceXmlFile = persistenceXmlFileCandidate.singleFile
+                } else {
+                    throw new InvalidUserDataException("Multiple persistence.xml files found in path: " +
+                            persistenceXmlFile + ", " + persistenceXmlFileCandidate)
+                }
+            }
         }
 
-        if (persistenceXml.isEmpty() || persistenceXml.files.size() > 1) {
-            throw new InvalidUserDataException(
-                    "Could not find valid persistence.xml in path " + this.persistenceXml)
+        // Nothing found. Fallback to plain file.
+        if (persistenceXmlFile == null) {
+            persistenceXmlFile = project.file(persistenceXml)
+            if (!persistenceXmlFile.exists()) {
+                throw new InvalidUserDataException(
+                        "Could not find valid persistence.xml in path " + this.persistenceXml)
+            }
         }
 
-        persistenceXml.singleFile
+        persistenceXml = persistenceXmlFile
     }
 
     URL[] getClasspath() {
