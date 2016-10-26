@@ -166,14 +166,14 @@ openjpa {
 * _Type:_ String
 * _Default:_ none
 * _Required:_ Yes
-*_ Scope_: sql
+* _Scope_: sql
 
 **sqlFile**
 * _Description_: The SQL file name to generate the Database Schema.
 * _Type:_ String
 * _Default:_ ${buildDir}/database.sql
 * _Required:_ No
-*_ Scope_: sql
+* _Scope_: sql
 
 ### Full Example:
 ```gradle
