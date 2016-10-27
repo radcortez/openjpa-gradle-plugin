@@ -86,7 +86,7 @@ You can pass additional configuration to the `sql` task with:
 openjpa {
     sql {
         connectionDriverName 'oracle.jdbc.OracleDriver'
-        sqlFile '${buildDir}/database.sql'
+        sqlFile 'build/database.sql'
     }
 }
 ```
@@ -169,7 +169,7 @@ openjpa {
 **sqlFile**
 * _Description_: The SQL file name to generate the Database Schema.
 * _Type:_ String
-* _Default:_ ${buildDir}/database.sql
+* _Default:_ build/database.sql
 * _Required:_ No
 * _Scope_: sql
 
