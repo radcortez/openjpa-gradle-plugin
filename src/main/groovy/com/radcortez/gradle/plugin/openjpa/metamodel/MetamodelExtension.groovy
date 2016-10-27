@@ -17,7 +17,7 @@ class MetamodelExtension {
 
     @Input
     @Optional
-    String metamodelOutputFolder = project.buildDir.absolutePath + "/generated"
+    String metamodelOutputFolder = "build/generated"
     @Input
     @Optional
     String metamodelDependency = "org.apache.openjpa:openjpa:2.4.0"
@@ -38,12 +38,16 @@ class MetamodelExtension {
         }
     }
 
+    String getMetamodelOutputFolder() {
+        return project.rootDir.path + "/" + metamodelOutputFolder
+    }
+
     void cleanMetamodelOutputFolder() {
-        def metamodelOutputFolder = project.file(metamodelOutputFolder)
+        def metamodelOutputFolder = project.file(getMetamodelOutputFolder())
         def path = Paths.get(metamodelOutputFolder.path)
         metamodelOutputFolder.deleteDir()
 
-        while (path.parent != Paths.get(project.buildDir.path)) {
+        while (path.parent != Paths.get(project.rootDir.path)) {
             path = path.parent
             if (path.toFile().exists() && path.toFile().listFiles().length == 0) {
                 path.deleteDir()

@@ -53,13 +53,11 @@ openjpa {
 }
 ```
 
-Metamodel sources will be generated into the directory `${buildDir}/generated`
-
 You can pass additional configuration to the `metamodel` task with:
 ```gradle
 openjpa {
     metamodel {
-        metamodelOutputFolder '${buildDir}/generated'
+        metamodelOutputFolder 'build/generated'
         metamodelDependency 'org.apache.openjpa:openjpa:2.4.0'
     }
 }
@@ -150,7 +148,7 @@ openjpa {
 **metamodelOutputFolder**
 * _Description_: The output folder to use to generate the metamodel source files.
 * _Type:_ String
-* _Default:_ ${buildDir}/generated
+* _Default:_ build/generated
 * _Required:_ No
 * _Scope:_ metamodel
 
