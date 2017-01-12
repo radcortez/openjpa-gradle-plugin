@@ -29,7 +29,7 @@ bintray {
     publications = ['mavenJava']
 
     pkg {
-        repo = 'maven'
+        repo = 'radcortez'
         name = 'openjpa-gradle-plugin'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/radcortez/openjpa-gradle-plugin'
