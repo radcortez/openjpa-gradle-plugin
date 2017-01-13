@@ -81,8 +81,14 @@ class OpenJpaExtension {
             jar.toURI().toURL()
         }
 
-        def providedJars = project.configurations["providedCompile"].files.collect { jar ->
-            jar.toURI().toURL()
+        // This scope is only availble with the war plugin.
+        def providedJars
+        if (project.configurations.hasProperty("providedCompile")) {
+            providedJars = project.configurations["providedCompile"].files.collect { jar ->
+                jar.toURI().toURL()
+            }
+        } else {
+            providedJars = []
         }
 
         def resources = project.sourceSets.main.resources.srcDirs.collect { resource ->
