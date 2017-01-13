@@ -8,11 +8,11 @@ apply plugin: 'openjpa'
 
 buildscript {
     repositories {
-        mavenLocal()
+        jcenter()
     }
 
     dependencies {
-        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:0.3-SNAPSHOT'
+        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:1.0'
     }
 }
 ```
@@ -192,3 +192,9 @@ This example will exclude all classes from the OpenJPA tools, so it will only us
 `persistence.xml`. The metamodel source files are generated at 'target/generated-sources/metamodel' and are 
 automatically part of the build. An Oracle database SQL schema can be generated with `gradle sql` in the file 
 `build/database.sql`.
+
+## Build
+To use it locally, you need to checkout the project, build it and install it in your local Maven repository. You also need to have Gradle installed.
+
+ * Build with `gradle build`
+ * Add it to the local Maven repository with `gradle publishToMavenLocal`
