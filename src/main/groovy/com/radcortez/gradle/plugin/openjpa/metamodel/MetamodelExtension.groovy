@@ -1,5 +1,6 @@
 package com.radcortez.gradle.plugin.openjpa.metamodel
 
+import com.radcortez.gradle.plugin.openjpa.OpenJpaExtension
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.Input
@@ -20,20 +21,25 @@ class MetamodelExtension {
     String metamodelOutputFolder = "build/generated"
     @Input
     @Optional
-    String metamodelDependency = "org.apache.openjpa:openjpa:2.4.0"
+    String metamodelDependency = "org.apache.openjpa:openjpa:2.4.2"
 
     MetamodelExtension(final Project project) {
         this.project = project
 
         project.afterEvaluate() {
-            // Clean the generated metamodel folder.
-            project.tasks.clean.doLast {
-                cleanMetamodelOutputFolder()
-            }
+            OpenJpaExtension configuration = project
+                    .extensions.findByType(OpenJpaExtension)
 
-            // Generate metamodel source files before Java compile.
-            project.convention.getPlugin(JavaPluginConvention).sourceSets.all {
-                project.tasks.compileJava.dependsOn project.tasks.metamodel
+            if (configuration.addMetamodel) {
+                // Clean the generated metamodel folder.
+                project.tasks.clean.doLast {
+                    cleanMetamodelOutputFolder()
+                }
+
+                // Generate metamodel source files before Java compile.
+                project.convention.getPlugin(JavaPluginConvention).sourceSets.all {
+                    project.tasks.compileJava.dependsOn project.tasks.metamodel
+                }
             }
         }
     }
