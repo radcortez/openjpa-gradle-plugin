@@ -44,7 +44,7 @@ public class OpenJpa {
     }
 
     public boolean mappingTool(final String[] entities) throws Exception {
-        return MappingTool.run(jdbcConfiguration, entities, options, currentClassLoader);
+        return MappingTool.run(jdbcConfiguration, entities, options, Thread.currentThread().getContextClassLoader());
     }
 
     public void dispose() {
