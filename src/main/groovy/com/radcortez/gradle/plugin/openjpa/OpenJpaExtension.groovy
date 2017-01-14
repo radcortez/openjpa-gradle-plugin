@@ -24,8 +24,15 @@ class OpenJpaExtension {
     @Optional
     String excludes
 
+    boolean addMetamodel = false
+
     OpenJpaExtension(final Project project) {
         this.project = project
+    }
+
+    void metamodel(Closure closure) {
+        addMetamodel = true
+        closure()
     }
 
     def getClasses() {
