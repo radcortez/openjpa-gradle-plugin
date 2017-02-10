@@ -1,7 +1,9 @@
 package com.radcortez.gradle.plugin.openjpa
 
+import com.radcortez.gradle.plugin.openjpa.metamodel.MetamodelExtension
 import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Project
+import org.gradle.api.internal.ClosureBackedAction
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 
@@ -32,7 +34,8 @@ class OpenJpaExtension {
 
     void metamodel(Closure closure) {
         addMetamodel = true
-        closure()
+        project.extensions.findByType(OpenJpaExtension).extensions
+                .configure(MetamodelExtension.class, new ClosureBackedAction(closure))
     }
 
     def getClasses() {
