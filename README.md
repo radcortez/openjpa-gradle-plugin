@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:1.0'
+        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:1.1'
     }
 }
 ```
