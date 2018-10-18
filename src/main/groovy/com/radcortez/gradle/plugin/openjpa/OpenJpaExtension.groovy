@@ -21,10 +21,10 @@ class OpenJpaExtension {
     String persistenceXml = "META-INF/persistence.xml"
     @Input
     @Optional
-    String includes
+    Set<String> includes
     @Input
     @Optional
-    String excludes
+    Set<String> excludes
 
     boolean addMetamodel = false
 
@@ -43,11 +43,11 @@ class OpenJpaExtension {
             classes = project.fileTree(project.sourceSets.main.output.classesDir).matching {
                 // Need to use this. because there is a method with the same name as the instance variable
                 if (this.includes != null)
-                    include this.includes
+                    this.includes.forEach { include it }
 
                 // Need to use this. because there is a method with the same name as the instance variable
                 if (this.excludes != null)
-                    exclude this.excludes
+                    this.excludes.forEach { exclude it }
             }.files
         }
 
@@ -91,7 +91,7 @@ class OpenJpaExtension {
             jar.toURI().toURL()
         }
 
-        // This scope is only availble with the war plugin.
+        // This scope is only available with the war plugin.
         def providedJars
         if (project.configurations.hasProperty("providedCompile")) {
             providedJars = project.configurations["providedCompile"].files.collect { jar ->
