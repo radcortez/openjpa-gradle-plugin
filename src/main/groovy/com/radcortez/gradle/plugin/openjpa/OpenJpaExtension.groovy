@@ -14,7 +14,7 @@ import org.gradle.api.tasks.Optional
  */
 class OpenJpaExtension {
     Project project
-    def classes
+    Set<File> classes
 
     @Input
     @Optional
@@ -40,15 +40,17 @@ class OpenJpaExtension {
 
     def getClasses() {
         if (classes == null) {
-            classes = project.fileTree(project.sourceSets.main.output.classesDir).matching {
-                // Need to use this. because there is a method with the same name as the instance variable
-                if (this.includes != null)
-                    this.includes.forEach { include it }
+            classes = project.sourceSets.main.output.classesDirs.collectMany { classesDir ->
+                project.fileTree(classesDir).matching {
+                    // Need to use this. because there is a method with the same name as the instance variable
+                    if (this.includes != null)
+                        this.includes.forEach { include it }
 
-                // Need to use this. because there is a method with the same name as the instance variable
-                if (this.excludes != null)
-                    this.excludes.forEach { exclude it }
-            }.files
+                    // Need to use this. because there is a method with the same name as the instance variable
+                    if (this.excludes != null)
+                        this.excludes.forEach { exclude it }
+                }.files
+            }
         }
 
         return classes
@@ -85,7 +87,7 @@ class OpenJpaExtension {
     }
 
     URL[] getClasspath() {
-        def classes = project.sourceSets.main.output.classesDir.toURI().toURL()
+        def classes = project.sourceSets.main.output.classesDirs.collect { it.toURI().toURL() }
 
         def compileJars = project.configurations["compile"].files.collect { jar ->
             jar.toURI().toURL()
@@ -105,6 +107,6 @@ class OpenJpaExtension {
             resource.toURI().toURL()
         }
 
-        return ([classes] + compileJars + providedJars + resources) as URL[]
+        return (classes + compileJars + providedJars + resources) as URL[]
     }
 }
