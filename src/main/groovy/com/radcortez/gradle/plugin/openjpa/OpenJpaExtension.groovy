@@ -6,6 +6,8 @@ import org.gradle.api.Project
 import org.gradle.api.internal.ClosureBackedAction
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Description.
@@ -13,6 +15,8 @@ import org.gradle.api.tasks.Optional
  * @author Roberto Cortez
  */
 class OpenJpaExtension {
+    private static final Logger LOG = LoggerFactory.getLogger(OpenJpaExtension.class)
+
     Project project
     Set<File> classes
 
@@ -89,24 +93,19 @@ class OpenJpaExtension {
     URL[] getClasspath() {
         def classes = project.sourceSets.main.output.classesDirs.collect { it.toURI().toURL() }
 
-        def compileJars = project.configurations["compile"].files.collect { jar ->
+        def compileJars = project.configurations.compileClasspath.files.collect { jar ->
             jar.toURI().toURL()
-        }
-
-        // This scope is only available with the war plugin.
-        def providedJars
-        if (project.configurations.hasProperty("providedCompile")) {
-            providedJars = project.configurations["providedCompile"].files.collect { jar ->
-                jar.toURI().toURL()
-            }
-        } else {
-            providedJars = []
         }
 
         def resources = project.sourceSets.main.resources.srcDirs.collect { resource ->
             resource.toURI().toURL()
         }
 
-        return (classes + compileJars + providedJars + resources) as URL[]
+        LOG.info("Compile Jars")
+        compileJars.each { LOG.info(it.toString())}
+        LOG.info("Resources ABCDEF")
+        resources.each {LOG.info(it.toString())}
+
+        return (classes + compileJars + resources) as URL[]
     }
 }
