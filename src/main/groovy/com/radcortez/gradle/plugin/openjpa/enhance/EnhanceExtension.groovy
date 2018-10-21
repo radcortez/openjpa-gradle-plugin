@@ -7,6 +7,8 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Description.
@@ -14,6 +16,8 @@ import org.gradle.api.tasks.Optional
  * @author Roberto Cortez
  */
 class EnhanceExtension {
+    private static final Logger LOG = LoggerFactory.getLogger(EnhanceExtension.class)
+
     Project project
 
     @Input
@@ -47,6 +51,11 @@ class EnhanceExtension {
             "propertiesFile"             : openJpaConfiguration.persistenceXmlFile
         ]))
 
+        LOG.info("----Printing Classes----")
+        (openJpaConfiguration.classes as String[]).each {
+            LOG.info(it)
+        }
+        LOG.info("----End Classes----")
         openJpa.enhance(openJpaConfiguration.classes as String[])
         openJpa.dispose()
     }
