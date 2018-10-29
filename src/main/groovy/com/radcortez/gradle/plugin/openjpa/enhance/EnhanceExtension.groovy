@@ -26,7 +26,7 @@ class EnhanceExtension {
         this.project = project
 
         project.afterEvaluate() {
-            project.tasks.classes.doLast { EnhanceUtils.enhance(project) }
+            project.tasks.classes.doLast { EnhanceTask.enhance(project) }
         }
     }
 }
