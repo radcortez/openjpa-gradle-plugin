@@ -7,6 +7,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.TaskAction
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Description.
@@ -14,16 +16,19 @@ import org.gradle.api.tasks.TaskAction
  * @author Roberto Cortez
  */
 class EnhanceTask extends DefaultTask {
+    static final Logger LOG = LoggerFactory.getLogger(EnhanceTask.class)
+
     @TaskAction
     void enhance() {
-        enhance(project)
-    }
-
-    static void enhance(Project project) {
         project.pluginManager.apply(JavaPlugin)
 
         OpenJpaExtension openJpaConfiguration = project.extensions.findByType(OpenJpaExtension)
         EnhanceExtension configuration = openJpaConfiguration.extensions.findByType(EnhanceExtension)
+
+        LOG.debug("persistenceXml = {}", openJpaConfiguration.persistenceXml)
+        LOG.debug("addDefaultConstructor = {}", configuration.addDefaultConstructor)
+        LOG.debug("enforcePropertyRestrictions = {}", configuration.enforcePropertyRestrictions)
+        LOG.debug("tmpClassLoader = {}", configuration.tmpClassLoader)
 
         def openJpa = OpenJpa.openJpa(openJpaConfiguration.classpath, new Options([
                 "addDefaultConstructor"      : configuration.addDefaultConstructor.toBoolean(),
@@ -35,5 +40,4 @@ class EnhanceTask extends DefaultTask {
         openJpa.enhance(openJpaConfiguration.classes as String[])
         openJpa.dispose()
     }
-
 }

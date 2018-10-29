@@ -26,7 +26,15 @@ class EnhanceExtension {
         this.project = project
 
         project.afterEvaluate() {
-            project.tasks.classes.doLast { EnhanceTask.enhance(project) }
+            def runEnhance = false
+            project.tasks.classes.doLast {
+                runEnhance = true
+            }
+
+            project.tasks.enhance.onlyIf {
+                runEnhance
+            }
+            project.tasks.classes.finalizedBy(project.tasks.enhance)
         }
     }
 }

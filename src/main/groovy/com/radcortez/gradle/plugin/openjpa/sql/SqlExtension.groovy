@@ -35,6 +35,7 @@ class SqlExtension {
             project.tasks.sql.onlyIf {
                 runSql && configuration.generateSql
             }
+            project.tasks.sql.mustRunAfter("enhance")
             project.tasks.classes.finalizedBy(project.tasks.sql)
         }
     }
