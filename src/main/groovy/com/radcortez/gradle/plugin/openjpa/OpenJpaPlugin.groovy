@@ -39,6 +39,7 @@ class OpenJpaPlugin implements Plugin<Project> {
                 type: SqlTask,
                 group: "OpenJPA",
                 description: "Generates database schema SQL.",
+                dependsOn: "classes",
                 "sql")
     }
 }

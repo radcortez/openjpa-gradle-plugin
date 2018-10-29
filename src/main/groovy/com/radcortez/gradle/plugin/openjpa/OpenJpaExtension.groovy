@@ -1,6 +1,7 @@
 package com.radcortez.gradle.plugin.openjpa
 
 import com.radcortez.gradle.plugin.openjpa.metamodel.MetamodelExtension
+import com.radcortez.gradle.plugin.openjpa.sql.SqlExtension
 import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Project
 import org.gradle.api.internal.ClosureBackedAction
@@ -31,6 +32,7 @@ class OpenJpaExtension {
     Set<String> excludes
 
     boolean addMetamodel = false
+    boolean generateSql = false
 
     OpenJpaExtension(final Project project) {
         this.project = project
@@ -40,6 +42,12 @@ class OpenJpaExtension {
         addMetamodel = true
         project.extensions.findByType(OpenJpaExtension).extensions
                 .configure(MetamodelExtension.class, new ClosureBackedAction(closure))
+    }
+
+    void sql(Closure closure) {
+        generateSql = true
+        project.extensions.findByType(OpenJpaExtension).extensions
+                .configure(SqlExtension.class, new ClosureBackedAction(closure))
     }
 
     def getClasses() {
