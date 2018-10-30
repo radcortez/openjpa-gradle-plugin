@@ -29,6 +29,10 @@ dependencies {
     compile 'org.apache.openjpa:openjpa:3.0.0'
 }
 
+compileGroovy {
+    options.compilerArgs += ["-proc:none"]
+}
+
 task sourceJar(type: Jar) {
     from sourceSets.main.allSource
     classifier "sources"
