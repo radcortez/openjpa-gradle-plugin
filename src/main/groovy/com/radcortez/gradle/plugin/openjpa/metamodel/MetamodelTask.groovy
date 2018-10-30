@@ -3,9 +3,7 @@ package com.radcortez.gradle.plugin.openjpa.metamodel
 import com.radcortez.gradle.plugin.openjpa.OpenJpaExtension
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.file.SourceDirectorySet
-import org.gradle.api.internal.artifacts.configurations.DefaultConfiguration
 import org.gradle.api.tasks.compile.JavaCompile
-
 /**
  * Description.
  *
@@ -27,7 +25,7 @@ class MetamodelTask extends JavaCompile {
             }
             setClasspath(project.configurations.compile + project.configurations.openjpa)
 
-            destinationDir = project.file(configuration.metamodelOutputFolder)
+            setDestinationDir(project.file(configuration.metamodelOutputFolder))
 
             options.compilerArgs += [
                     "-Aopenjpa.source=" + sourceCompatibility[-1..-1],

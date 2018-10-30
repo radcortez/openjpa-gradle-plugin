@@ -4,12 +4,12 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.github.robwin:jgitflow-gradle-plugin:0.3.2'
+        classpath 'io.github.robwin:jgitflow-gradle-plugin:0.6.0'
     }
 }
 
 plugins {
-    id "com.jfrog.bintray" version "1.7.3"
+    id "com.jfrog.bintray" version "1.8.4"
 }
 
 apply plugin: 'groovy'
@@ -20,13 +20,17 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'org.apache.openjpa:openjpa:2.4.2'
+    compile 'org.apache.openjpa:openjpa:3.0.0'
+}
+
+compileGroovy {
+    options.compilerArgs += ["-proc:none"]
 }
 
 task sourceJar(type: Jar) {
