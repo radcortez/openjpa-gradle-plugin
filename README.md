@@ -1,5 +1,7 @@
 # OpenJPA Gradle Plugin
 
+This plugin requires Gradle 5.x.
+
 ## Usage
 In a Gradle project where you want to use the OpenJPA Gradle Plugin, add the following snippet:
  
@@ -12,7 +14,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:3.0.0'
+        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:3.1.0'
     }
 }
 ```
@@ -58,7 +60,7 @@ You can pass additional configuration to the `metamodel` task with:
 openjpa {
     metamodel {
         metamodelOutputFolder 'build/generated'
-        metamodelDependency 'org.apache.openjpa:openjpa:2.4.0'
+        metamodelDependency 'org.apache.openjpa:openjpa:3.1.0'
     }
 }
 ```
@@ -155,7 +157,7 @@ openjpa {
 **metamodelDependency**
 * _Description_: The OpenJPA dependency to use to generate the metamodel source files.
 * _Type:_ String
-* _Default:_ org.apache.openjpa:openjpa:2.4.0
+* _Default:_ org.apache.openjpa:openjpa:3.1.0
 * _Required:_ No
 * _Scope:_ metamodel
 
