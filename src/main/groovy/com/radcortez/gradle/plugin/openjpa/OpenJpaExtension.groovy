@@ -4,9 +4,9 @@ import com.radcortez.gradle.plugin.openjpa.metamodel.MetamodelExtension
 import com.radcortez.gradle.plugin.openjpa.sql.SqlExtension
 import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Project
-import org.gradle.api.internal.ClosureBackedAction
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
+import org.gradle.util.ClosureBackedAction
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
