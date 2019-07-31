@@ -23,7 +23,8 @@ class MetamodelTask extends JavaCompile {
             setDestinationDir(project.file(configuration.metamodelOutputFolder))
 
             def openjpaConfig = project.configurations.detachedConfiguration(
-                    project.dependencies.create(configuration.metamodelDependency))
+                    project.dependencies.create(configuration.metamodelDependency),
+                    project.dependencies.create("javax.annotation:jsr250-api:1.0"))
 
             options.annotationProcessorPath = openjpaConfig
             options.compilerArgs += [
