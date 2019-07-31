@@ -23,10 +23,11 @@ class MetamodelTask extends JavaCompile {
             project.dependencies {
                 DependencyHandler d -> d.add("openjpa", configuration.metamodelDependency)
             }
-            setClasspath(project.configurations.compile + project.configurations.openjpa)
+            setClasspath(project.configurations.compile)
 
             setDestinationDir(project.file(configuration.metamodelOutputFolder))
 
+            options.annotationProcessorPath = project.configurations.openjpa
             options.compilerArgs += [
                     "-Aopenjpa.source=" + sourceCompatibility[-1..-1],
                     "-Aopenjpa.metamodel=true",
