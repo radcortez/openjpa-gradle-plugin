@@ -21,7 +21,7 @@ class MetamodelExtension {
     String metamodelOutputFolder = "build/generated"
     @Input
     @Optional
-    String metamodelDependency = "org.apache.openjpa:openjpa:2.4.2"
+    String metamodelDependency = "org.apache.openjpa:openjpa:3.1.0"
 
     MetamodelExtension(final Project project) {
         this.project = project
