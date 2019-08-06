@@ -34,8 +34,8 @@ compileGroovy {
 }
 
 task sourceJar(type: Jar) {
+    archiveClassifier = "sources"
     from sourceSets.main.allSource
-    classifier "sources"
 }
 
 publishing {
