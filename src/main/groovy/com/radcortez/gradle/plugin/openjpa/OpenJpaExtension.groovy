@@ -101,7 +101,8 @@ class OpenJpaExtension {
     URL[] getClasspath() {
         def classes = project.sourceSets.main.output.classesDirs.collect { it.toURI().toURL() }
 
-        def compileJars = project.configurations.compileClasspath.files.collect { jar ->
+        def configClasspath = project.getTasksByName("compileJava", false)?.classpath.name ?: "compileClasspath"
+        def compileJars = project.configurations.getByName(configClasspath).files.collect { jar ->
             jar.toURI().toURL()
         }
 
@@ -109,9 +110,7 @@ class OpenJpaExtension {
             resource.toURI().toURL()
         }
 
-        LOG.info("Compile Jars")
         compileJars.each { LOG.info(it.toString())}
-        LOG.info("Resources ABCDEF")
         resources.each {LOG.info(it.toString())}
 
         return (classes + compileJars + resources) as URL[]
