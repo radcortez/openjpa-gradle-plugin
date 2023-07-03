@@ -19,7 +19,7 @@ class MetamodelTask extends JavaCompile {
             SourceDirectorySet mainJava = project.sourceSets.main.java
             source(mainJava.srcDirs)
 
-            setClasspath(project.configurations.compile)
+            setClasspath(project.configurations.compileClasspath)
             setDestinationDir(project.file(configuration.metamodelOutputFolder))
 
             def openjpaConfig = project.configurations.detachedConfiguration(
