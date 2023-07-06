@@ -1,23 +1,43 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'io.github.robwin:jgitflow-gradle-plugin:0.6.0'
-    }
-}
-
-plugins {
-    id "com.jfrog.bintray" version "1.8.4"
-}
-
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
-apply plugin: 'io.github.robwin.jgitflow'
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'com.gradle.plugin-publish'
+
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+    dependencies {
+        classpath("com.gradle.publish:plugin-publish-plugin:0.21.0")
+    }
+}
 
 repositories {
     mavenCentral()
+}
+
+gradlePlugin {
+    plugins {
+        openjpa {
+            id = 'com.radcortez.openjpa.gradle.plugin'
+            implementationClass = 'com.radcortez.gradle.plugin.openjpa.OpenJpaPlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/radcortez/openjpa-gradle-plugin'
+    vcsUrl = 'https://github.com/radcortez/openjpa-gradle-plugin.git'
+
+    plugins {
+        openjpa {
+            displayName = 'Plugin for OpenJPA'
+            description = 'This plugin provides useful tasks for building and maintaining an OpenJPA project'
+            tags = ['jpa', 'openjpa']
+        }
+    }
 }
 
 sourceCompatibility = 1.8
@@ -31,41 +51,4 @@ dependencies {
 
 compileGroovy {
     options.compilerArgs += ["-proc:none"]
-}
-
-task sourceJar(type: Jar) {
-    archiveClassifier = "sources"
-    from sourceSets.main.allSource
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourceJar
-        }
-    }
-}
-
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ['mavenJava']
-
-    pkg {
-        repo = 'radcortez'
-        name = 'openjpa-gradle-plugin'
-        licenses = ['Apache-2.0']
-        websiteUrl = 'https://github.com/radcortez/openjpa-gradle-plugin'
-        vcsUrl = 'https://github.com/radcortez/openjpa-gradle-plugin'
-        issueTrackerUrl = 'https://github.com/radcortez/openjpa-gradle-plugin/issues'
-        githubRepo = 'radcortez/openjpa-gradle-plugin'
-        githubReleaseNotesFile = 'README.md'
-
-        version {
-            name = project.version
-            vcsTag = project.version
-            released  = new Date()
-        }
-    }
 }

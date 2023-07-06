@@ -10,14 +10,19 @@ apply plugin: 'openjpa'
 
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
     }
 
     dependencies {
-        classpath 'com.radcortez.gradle:openjpa-gradle-plugin:3.1.0'
+        classpath("com.radcortez.gradle:openjpa-gradle-plugin:3.1.1")
     }
 }
 ```
+
+The plugin is available in the 
+[Gradle Plugin Portal](https://plugins.gradle.org/plugin/com.radcortez.openjpa.gradle.plugin)
 
 ### Tasks
 The OpenJPA Gradle Plugin has three tasks:
@@ -196,7 +201,7 @@ automatically part of the build. An Oracle database SQL schema can be generated 
 `build/database.sql`.
 
 ## Build
-To use it locally, you need to checkout the project, build it and install it in your local Maven repository. You also need to have Gradle installed.
+To use it locally, checkout the project, build it and install it in your local Maven repository.
 
- * Build with `gradle build`
- * Add it to the local Maven repository with `gradle publishToMavenLocal`
+ * Build with `./gradlew build`
+ * Add it to the local Maven repository with `./gradlew publishToMavenLocal`
