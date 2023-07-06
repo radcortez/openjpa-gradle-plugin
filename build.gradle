@@ -44,9 +44,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
-    compile 'org.apache.openjpa:openjpa:3.1.0'
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'org.apache.openjpa:openjpa:3.1.0'
 }
 
 compileGroovy {
