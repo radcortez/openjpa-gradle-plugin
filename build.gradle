@@ -37,7 +37,7 @@ targetCompatibility = 1.8
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'org.apache.openjpa:openjpa:3.1.0'
+    implementation 'org.apache.openjpa:openjpa:3.2.2'
 }
 
 compileGroovy {
