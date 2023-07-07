@@ -1,6 +1,4 @@
 apply plugin: 'groovy'
-apply plugin: 'maven-publish'
-apply plugin: 'java-gradle-plugin'
 apply plugin: 'com.gradle.plugin-publish'
 
 buildscript {
@@ -10,7 +8,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("com.gradle.publish:plugin-publish-plugin:0.21.0")
+        classpath("com.gradle.publish:plugin-publish-plugin:1.1.0")
     }
 }
 
@@ -19,23 +17,16 @@ repositories {
 }
 
 gradlePlugin {
-    plugins {
-        openjpa {
-            id = 'com.radcortez.openjpa.gradle.plugin'
-            implementationClass = 'com.radcortez.gradle.plugin.openjpa.OpenJpaPlugin'
-        }
-    }
-}
-
-pluginBundle {
     website = 'https://github.com/radcortez/openjpa-gradle-plugin'
     vcsUrl = 'https://github.com/radcortez/openjpa-gradle-plugin.git'
 
     plugins {
         openjpa {
+            id = 'com.radcortez.openjpa.gradle.plugin'
+            implementationClass = 'com.radcortez.gradle.plugin.openjpa.OpenJpaPlugin'
             displayName = 'Plugin for OpenJPA'
             description = 'This plugin provides useful tasks for building and maintaining an OpenJPA project'
-            tags = ['jpa', 'openjpa']
+            tags.set(['jpa', 'openjpa'])
         }
     }
 }
