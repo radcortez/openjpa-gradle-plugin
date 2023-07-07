@@ -1,6 +1,11 @@
+[![Version](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/radcortez/gradle/openjpa-gradle-plugin/maven-metadata.xml.svg?label=gradle)](https://plugins.gradle.org/plugin/com.radcortez.openjpa.gradle.plugin)
+[![License](https://img.shields.io/github/license/radcortez/openjpa-gradle-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
 # OpenJPA Gradle Plugin
 
-This plugin requires Gradle 5.x.
+The plugin is available in the [Gradle Plugin Portal](https://plugins.gradle.org/plugin/com.radcortez.openjpa.gradle.plugin)
+
+This plugin requires Gradle 7.x and targets [OpenJPA](https://openjpa.apache.org) 3.2.x.
 
 ## Usage
 In a Gradle project where you want to use the OpenJPA Gradle Plugin, add the following snippet:
@@ -20,9 +25,6 @@ buildscript {
     }
 }
 ```
-
-The plugin is available in the 
-[Gradle Plugin Portal](https://plugins.gradle.org/plugin/com.radcortez.openjpa.gradle.plugin)
 
 ### Tasks
 The OpenJPA Gradle Plugin has three tasks:
