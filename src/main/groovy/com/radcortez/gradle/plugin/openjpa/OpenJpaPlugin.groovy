@@ -2,6 +2,8 @@ package com.radcortez.gradle.plugin.openjpa
 
 import com.radcortez.gradle.plugin.openjpa.enhance.EnhanceExtension
 import com.radcortez.gradle.plugin.openjpa.enhance.EnhanceTask
+import com.radcortez.gradle.plugin.openjpa.enhanceTest.EnhanceTestExtension
+import com.radcortez.gradle.plugin.openjpa.enhanceTest.EnhanceTestTask
 import com.radcortez.gradle.plugin.openjpa.metamodel.MetamodelExtension
 import com.radcortez.gradle.plugin.openjpa.metamodel.MetamodelTask
 import com.radcortez.gradle.plugin.openjpa.sql.SqlExtension
@@ -19,6 +21,7 @@ class OpenJpaPlugin implements Plugin<Project> {
     void apply(final Project project) {
         project.extensions.create("openjpa", OpenJpaExtension, project)
         project.openjpa.extensions.create("enhance", EnhanceExtension, project)
+        project.openjpa.extensions.create("enhanceTest", EnhanceTestExtension, project)
         project.openjpa.extensions.create("metamodel", MetamodelExtension, project)
         project.openjpa.extensions.create("sql", SqlExtension, project)
 
@@ -28,6 +31,13 @@ class OpenJpaPlugin implements Plugin<Project> {
                 description: "Enhances entity classes with the OpenJPA Enhancer tool.",
                 dependsOn: "classes",
                 "enhance")
+
+        project.task(
+                type: EnhanceTestTask,
+                group: "OpenJPA",
+                description: "Enhances entity test classes with the OpenJPA Enhancer tool.",
+                dependsOn: "testClasses",
+                "enhanceTest")
 
         project.task(
                 type: MetamodelTask,
